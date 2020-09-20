@@ -1,0 +1,30 @@
+server:
+  port: 8501
+spring:
+  application:
+    name: gateway
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+    gateway:
+      routes:
+        - id: user_route
+          uri: lb://users
+          predicates:
+            - Path=/feign/**
+#            - After=2020-09-19T21:42:00.000+08:00[Asia/Shanghai]
+        - id: product_route
+          uri: lb://products
+          predicates:
+            - Path=/product/**
+#            - After=2020-09-19T21:42:00.000+08:00[Asia/Shanghai]
+      discovery:
+        locator:
+          enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
